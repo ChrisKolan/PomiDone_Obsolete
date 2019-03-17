@@ -2,6 +2,7 @@
 
 using PomiDone.Helpers;
 using Windows.System.Threading;
+using Windows.UI.Core;
 
 namespace PomiDone.ViewModels
 {
