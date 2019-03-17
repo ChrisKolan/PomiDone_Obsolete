@@ -31,7 +31,7 @@
                 Foreground="Green"/>
                 <TextBlock 
                 x:Name="WorkTimerTextBlock" 
-                Text="{Binding WorkTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                Text="{x:Bind ViewModel.WorkTimerTextBlock, Mode=OneWay}" 
                 HorizontalAlignment="Center" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
@@ -39,7 +39,7 @@
                 FontSize="48"/>
                 <TextBlock 
                 x:Name="ShortTimerTextBlock" 
-                Text="{Binding ShortTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                Text="{x:Bind ViewModel.ShortTimerTextBlock, Mode=OneWay}" 
                 HorizontalAlignment="Center" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
@@ -47,7 +47,7 @@
                 FontSize="48"/>
                 <TextBlock 
                 x:Name="LongTimerTextBlock" 
-                Text="{Binding LongTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                Text="{x:Bind ViewModel.LongTimerTextBlock, Mode=OneWay}" 
                 HorizontalAlignment="Center" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
