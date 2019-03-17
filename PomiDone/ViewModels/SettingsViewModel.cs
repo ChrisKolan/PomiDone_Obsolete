@@ -13,6 +13,7 @@ namespace PomiDone.ViewModels
     public class SettingsViewModel : Observable
     {
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+        public RelayCommand StoreSettings { get; set; }
 
         public ElementTheme ElementTheme
         {
@@ -28,6 +29,33 @@ namespace PomiDone.ViewModels
             get { return _versionDescription; }
 
             set { Set(ref _versionDescription, value); }
+        }
+
+        private string _settingsWorkTimer;
+
+        public string SettingsWorkTimer
+        {
+            get { return _settingsWorkTimer; }
+
+            set { Set(ref _settingsWorkTimer, value); }
+        }
+
+        private string _settingsShortBreakTimer;
+
+        public string SettingsShortBreakTimer
+        {
+            get { return _settingsShortBreakTimer; }
+
+            set { Set(ref _settingsShortBreakTimer, value); }
+        }
+
+        private string _settingsLongBreakTimer;
+
+        public string SettingsLongBreakTimer
+        {
+            get { return _settingsLongBreakTimer; }
+
+            set { Set(ref _settingsLongBreakTimer, value); }
         }
 
         private ICommand _switchThemeCommand;
@@ -52,11 +80,23 @@ namespace PomiDone.ViewModels
 
         public SettingsViewModel()
         {
+            StoreSettings = new RelayCommand(StoreSettingsClickCommand);
+            VersionDescription = GetVersionDescription();
+            SettingsWorkTimer = "25";
+            SettingsShortBreakTimer = "5";
+            SettingsLongBreakTimer = "15";
+        }
+
+        private void StoreSettingsClickCommand()
+        {
+            SettingsWorkTimer = SettingsWorkTimer;
+            SettingsShortBreakTimer = SettingsShortBreakTimer;
+            SettingsLongBreakTimer = SettingsLongBreakTimer;
         }
 
         public void Initialize()
         {
-            VersionDescription = GetVersionDescription();
+            
         }
 
         private string GetVersionDescription()

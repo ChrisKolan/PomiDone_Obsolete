@@ -20,6 +20,32 @@
                 Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock
+                    x:Uid="Settings_Timers"
+                    Margin="5"/>
+                <TextBox
+                    x:Uid="Settings_WorkTimer"
+                    Text="{x:Bind ViewModel.SettingsWorkTimer, Mode=TwoWay}"
+                    Margin="5">
+                </TextBox>
+                <TextBox
+                    x:Uid="Settings_ShortBreakTimer"
+                    Text="{x:Bind ViewModel.SettingsShortBreakTimer, Mode=TwoWay}"
+                    Margin="5">
+                </TextBox>
+                <TextBox
+                    x:Uid="Settings_LongBreakTimer"
+                    Text="{x:Bind ViewModel.SettingsLongBreakTimer, Mode=TwoWay}"
+                    Margin="5">
+                </TextBox>
+                <Button
+                    x:Uid="Settings_StoreTimers"
+                    Margin="1,1,1,1"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Content="Store timer settings"
+                    Command="{x:Bind ViewModel.StoreSettings}">
+                </Button>
+                <TextBlock
                     x:Uid="Settings_Theme" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">

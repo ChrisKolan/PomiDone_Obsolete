@@ -234,4 +234,8 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <value>https://en.wikipedia.org/wiki/Pomodoro_Technique</value>
     <comment>Uri</comment>
   </data>
+  <data name="Settings_Timers.Text" xml:space="preserve">
+    <value>Choose lenght of work and breaks in minutes</value>
+    <comment>Choose lenght of work and breaks in minutes</comment>
+  </data>
 </root>

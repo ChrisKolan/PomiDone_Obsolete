@@ -10,7 +10,11 @@ namespace PomiDone.Views
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page
     {
-        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
+        private static SettingsViewModel _viewModel;
+        public SettingsViewModel ViewModel
+        {
+            get { return _viewModel ?? (_viewModel = new SettingsViewModel()); }
+        }
 
         public SettingsPage()
         {
