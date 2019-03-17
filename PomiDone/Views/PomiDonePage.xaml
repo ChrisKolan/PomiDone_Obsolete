@@ -55,7 +55,7 @@
                 FontSize="48"/>
                 <Button 
                 x:Name="ButtonStartPauseResumeContent" 
-                Content="{x:Bind ViewModel.ButtonStartPauseResumeContent}"
+                Content="{x:Bind ViewModel.ButtonStartPauseResumeContent, Mode=OneWay}"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" 
                 Height="100" 
