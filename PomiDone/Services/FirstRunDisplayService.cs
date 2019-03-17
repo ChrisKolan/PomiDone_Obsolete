@@ -13,12 +13,12 @@ namespace PomiDone.Services
 
         internal static async Task ShowIfAppropriateAsync()
         {
-            if (SystemInformation.IsFirstRun && !shown)
-            {
-                shown = true;
-                var dialog = new FirstRunDialog();
-                await dialog.ShowAsync();
-            }
+            //if (SystemInformation.IsFirstRun && !shown)
+            //{
+            //    shown = true;
+            //    var dialog = new FirstRunDialog();
+            //    await dialog.ShowAsync();
+            //}
         }
     }
 }
