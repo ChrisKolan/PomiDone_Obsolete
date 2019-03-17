@@ -25,9 +25,9 @@
                 </TextBlock>
                 <ProgressBar 
                 Width="250" 
-                Value="{Binding CurrentProgress, Mode=OneWay}"
+                Value="{x:Bind ViewModel.CurrentProgress, Mode=OneWay}"
                 Minimum="0" 
-                Maximum="{Binding ProgressMaximum, Mode=OneWay}"
+                Maximum="{x:Bind ViewModel.ProgressMaximum, Mode=OneWay}"
                 Foreground="Green"/>
                 <TextBlock 
                 x:Name="WorkTimerTextBlock" 
@@ -73,7 +73,7 @@
                 Width="250" 
                 FontSize="48"
                 Margin="10"
-                Command="{Binding ResetClick}">
+                Command="{x:Bind ViewModel.ResetClick}">
                 </Button>
             </StackPanel>
         </Grid>
