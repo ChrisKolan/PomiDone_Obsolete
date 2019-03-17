@@ -12,6 +12,10 @@ namespace PomiDone.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
     public class SettingsViewModel : Observable
     {
+        private const string WorkTimerSettingsKey = "WorkTimerSettingsKey";
+        private const string ShortBreakTimerSettingsKey = "ShortBreakTimerSettingsKey";
+        private const string LongBreakTimerSettingsKey = "LongBreakTimerSettingsKey";
+
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
         public RelayCommand StoreSettings { get; set; }
 
@@ -80,18 +84,18 @@ namespace PomiDone.ViewModels
 
         public SettingsViewModel()
         {
-            StoreSettings = new RelayCommand(StoreSettingsClickCommand);
+            StoreSettings = new RelayCommand(StoreSettingsClickCommandAsync);
             VersionDescription = GetVersionDescription();
-            SettingsWorkTimer = "25";
-            SettingsShortBreakTimer = "5";
-            SettingsLongBreakTimer = "15";
-        }
+            SettingsWorkTimer = StoreTimersService.WorkTimer;
+            SettingsShortBreakTimer = StoreTimersService.ShortBreakTimer;
+            SettingsLongBreakTimer = StoreTimersService.LongBreakTimer;
+    }
 
-        private void StoreSettingsClickCommand()
+        private async void StoreSettingsClickCommandAsync()
         {
-            SettingsWorkTimer = SettingsWorkTimer;
-            SettingsShortBreakTimer = SettingsShortBreakTimer;
-            SettingsLongBreakTimer = SettingsLongBreakTimer;
+            await StoreTimersService.SaveTimerInSettingsAsync(WorkTimerSettingsKey, SettingsWorkTimer);
+            await StoreTimersService.SaveTimerInSettingsAsync(ShortBreakTimerSettingsKey, SettingsShortBreakTimer);
+            await StoreTimersService.SaveTimerInSettingsAsync(LongBreakTimerSettingsKey, SettingsLongBreakTimer);
         }
 
         public void Initialize()

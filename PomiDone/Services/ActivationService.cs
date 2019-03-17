@@ -71,6 +71,7 @@ namespace PomiDone.Services
         {
             await Singleton<LiveTileService>.Instance.EnableQueueAsync();
             await ThemeSelectorService.InitializeAsync();
+            await StoreTimersService.InitializeAsync();
         }
 
         private async Task StartupAsync()

@@ -17,9 +17,9 @@ namespace PomiDone.ViewModels
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
-        private int _workTimerTimeSpanInMinutes = 3;
-        private int _shortBreakTimerTimeSpanInMinutes = 1;
-        private int _longBreakTimerTimeSpanInMinutes = 2;
+        private int _workTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.WorkTimer);
+        private int _shortBreakTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.ShortBreakTimer);
+        private int _longBreakTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.LongBreakTimer);
         private bool _isStarted = false;
         private int _workCounter;
         private int _zeroCrossingCounter;
