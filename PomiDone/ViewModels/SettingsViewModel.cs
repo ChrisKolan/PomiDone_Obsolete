@@ -5,6 +5,7 @@ using PomiDone.Helpers;
 using PomiDone.Services;
 
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 
 namespace PomiDone.ViewModels
@@ -84,7 +85,7 @@ namespace PomiDone.ViewModels
 
         public SettingsViewModel()
         {
-            StoreSettings = new RelayCommand(StoreSettingsClickCommandAsync);
+            StoreSettings = new RelayCommand(StoreSettingsClickCommand);
             VersionDescription = GetVersionDescription();
             SettingsWorkTimer = StoreTimersService.WorkTimer;
             SettingsShortBreakTimer = StoreTimersService.ShortBreakTimer;
@@ -96,6 +97,19 @@ namespace PomiDone.ViewModels
             await StoreTimersService.SaveTimerInSettingsAsync(WorkTimerSettingsKey, SettingsWorkTimer);
             await StoreTimersService.SaveTimerInSettingsAsync(ShortBreakTimerSettingsKey, SettingsShortBreakTimer);
             await StoreTimersService.SaveTimerInSettingsAsync(LongBreakTimerSettingsKey, SettingsLongBreakTimer);
+            PomiDoneViewModel viewModel = new PomiDoneViewModel();
+            viewModel.Initialize(WorkTimerSettingsKey, ShortBreakTimerSettingsKey, LongBreakTimerSettingsKey);
+        }
+
+        private async void StoreSettingsClickCommand()
+        {
+            StoreTimersService.SaveTimerInSettings(WorkTimerSettingsKey, SettingsWorkTimer);
+            StoreTimersService.SaveTimerInSettings(ShortBreakTimerSettingsKey, SettingsShortBreakTimer);
+            StoreTimersService.SaveTimerInSettings(LongBreakTimerSettingsKey, SettingsLongBreakTimer);
+            PomiDoneViewModel viewModel = new PomiDoneViewModel();
+            viewModel.Initialize(SettingsWorkTimer, SettingsShortBreakTimer, SettingsLongBreakTimer);
+
+            AppRestartFailureReason result = await CoreApplication.RequestRestartAsync("-fastInit -level 1 -foo");
         }
 
         public void Initialize()

@@ -235,7 +235,7 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <comment>Uri</comment>
   </data>
   <data name="Settings_Timers.Text" xml:space="preserve">
-    <value>Choose lenght of work and breaks in minutes</value>
+    <value>Choose length of work, short and long breaks in minutes</value>
     <comment>Choose lenght of work and breaks in minutes</comment>
   </data>
 </root>

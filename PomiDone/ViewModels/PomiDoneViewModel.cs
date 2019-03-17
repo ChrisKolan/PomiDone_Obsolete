@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using PomiDone.Helpers;
 using Windows.System.Threading;
 using Windows.UI.Core;
@@ -8,6 +8,10 @@ namespace PomiDone.ViewModels
 {
     public class PomiDoneViewModel : Observable
     {
+        private const string WorkTimerSettingsKey = "WorkTimerSettingsKey";
+        private const string ShortBreakTimerSettingsKey = "ShortBreakTimerSettingsKey";
+        private const string LongBreakTimerSettingsKey = "LongBreakTimerSettingsKey";
+
         private static bool _isInitialized = false;
         private string _timerTextBlock;
         private string _workTimerTextBlock;
@@ -34,9 +38,10 @@ namespace PomiDone.ViewModels
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartPauseResumeClick = new RelayCommand(StartPauseResumeClickCommand);
             ResetClick = new RelayCommand(ResetClickCommand);
-            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-            _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
-            _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
+            _workTimer = TimeSpan.FromMinutes(double.Parse(Services.StoreTimersService.WorkTimer));
+            //_workTimer = TimeSpan.FromMinutes(double.Parse(WorkTimerSettingsKey));
+            //_shortBreakTimer = TimeSpan.FromMinutes(int.Parse(Services.StoreTimersService.ShortBreakTimer));
+            //_longBreakTimer = TimeSpan.FromMinutes(int.Parse(Services.StoreTimersService.ShortBreakTimer));
             _timeSpan = _workTimerTimeSpanInMinutes;
             ButtonStartPauseResumeContent = "Start";
             ProgressMaximum = _timeSpan * 60;
@@ -44,9 +49,11 @@ namespace PomiDone.ViewModels
             _isInitialized = true;
         }
 
-        public void Initialize()
+        public void Initialize(string WorkTimerSettingsKey, string ShortBreakTimerSettingsKey, string LongBreakTimerSettingsKey)
         {
-
+            _workTimer = TimeSpan.FromMinutes(double.Parse(WorkTimerSettingsKey));
+            //_shortBreakTimer = TimeSpan.FromMinutes(double.Parse(ShortBreakTimerSettingsKey));
+            //_longBreakTimer = TimeSpan.FromMinutes(double.Parse(LongBreakTimerSettingsKey));
         }
 
         public RelayCommand StartPauseResumeClick { get; set; }

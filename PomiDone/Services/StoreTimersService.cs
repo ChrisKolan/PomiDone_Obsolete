@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using PomiDone.Helpers;
-
+using PomiDone.ViewModels;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -25,9 +25,11 @@ namespace PomiDone.Services
             WorkTimer = await LoadTimerFromSettingsAsync(WorkTimerSettingsKey);
             ShortBreakTimer = await LoadTimerFromSettingsAsync(ShortBreakTimerSettingsKey);
             LongBreakTimer = await LoadTimerFromSettingsAsync(LongBreakTimerSettingsKey);
+            //PomiDoneViewModel viewModel = new PomiDoneViewModel();
+            //viewModel.Initialize(WorkTimer, ShortBreakTimer, LongBreakTimer);
         }
 
-        private static async Task<string> LoadTimerFromSettingsAsync(string key)
+        public static async Task<string> LoadTimerFromSettingsAsync(string key)
         {
             string defaultTimer;
 
@@ -60,6 +62,11 @@ namespace PomiDone.Services
         public static async Task SaveTimerInSettingsAsync(string key, string timerToStore)
         {
             await ApplicationData.Current.LocalSettings.SaveAsync(key, timerToStore);
+        }
+
+        public static void SaveTimerInSettings(string key, string timerToStore)
+        {
+            ApplicationData.Current.LocalSettings.SaveString(key, timerToStore);
         }
     }
 }
