@@ -226,4 +226,12 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
     <value>Ok</value>
     <comment>What's new prompt message primary button text</comment>
   </data>
+  <data name="Settings_PomodoroTechniqueLink.Content" xml:space="preserve">
+    <value>Pomodoro Technique</value>
+    <comment>Link to the webpage</comment>
+  </data>
+  <data name="Settings_PomodoroTechniqueLink.NavigateUri" xml:space="preserve">
+    <value>https://en.wikipedia.org/wiki/Pomodoro_Technique</value>
+    <comment>Uri</comment>
+  </data>
 </root>
