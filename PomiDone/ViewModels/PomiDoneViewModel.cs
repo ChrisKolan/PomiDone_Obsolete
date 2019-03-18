@@ -17,8 +17,6 @@ namespace PomiDone.ViewModels
         private string _shortTimerTextBlock;
         private string _longTimerTextBlock;
         private TimeSpan _workTimer;
-        private TimeSpan _shortBreakTimer;
-        private TimeSpan _longBreakTimer;
         private int _workTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.WorkTimer);
         private int _shortBreakTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.ShortBreakTimer);
         private int _longBreakTimerTimeSpanInMinutes = int.Parse(Services.StoreTimersService.LongBreakTimer);
