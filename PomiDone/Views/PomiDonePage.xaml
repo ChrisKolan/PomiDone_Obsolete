@@ -36,7 +36,7 @@
                 HorizontalAlignment="Center" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
-                ToolTipService.ToolTip="Work counter"
+                ToolTipService.ToolTip="Task counter"
                 FontSize="48"/>
                 <TextBlock 
                 x:Name="ShortTimerTextBlock" 
