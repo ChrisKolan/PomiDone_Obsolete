@@ -12,12 +12,10 @@ namespace PomiDone.ViewModels
         private const string ShortBreakTimerSettingsKey = "ShortBreakTimerSettingsKey";
         private const string LongBreakTimerSettingsKey = "LongBreakTimerSettingsKey";
 
-        private static bool _isInitialized = false;
         private string _timerTextBlock;
         private string _workTimerTextBlock;
         private string _shortTimerTextBlock;
         private string _longTimerTextBlock;
-        //private string _buttonStartPauseResumeContent;
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
@@ -32,6 +30,7 @@ namespace PomiDone.ViewModels
         private int _timeSpan;
         private int _currentProgress;
         private int _progressMaximum;
+        private string _buttonStartPauseResumeContent;
 
         public PomiDoneViewModel()
         {
@@ -40,20 +39,14 @@ namespace PomiDone.ViewModels
             StartPauseResumeClick = new RelayCommand(StartPauseResumeClickCommand);
             ResetClick = new RelayCommand(ResetClickCommand);
             _workTimer = TimeSpan.FromMinutes(double.Parse(Services.StoreTimersService.WorkTimer));
-            //_workTimer = TimeSpan.FromMinutes(double.Parse(WorkTimerSettingsKey));
-            //_shortBreakTimer = TimeSpan.FromMinutes(int.Parse(Services.StoreTimersService.ShortBreakTimer));
-            //_longBreakTimer = TimeSpan.FromMinutes(int.Parse(Services.StoreTimersService.ShortBreakTimer));
             _timeSpan = _workTimerTimeSpanInMinutes;
             ButtonStartPauseResumeContent = "Start";
             ProgressMaximum = _timeSpan * 60;
-            _isInitialized = true;
         }
 
         public void Initialize(string WorkTimerSettingsKey, string ShortBreakTimerSettingsKey, string LongBreakTimerSettingsKey)
         {
             _workTimer = TimeSpan.FromMinutes(double.Parse(WorkTimerSettingsKey));
-            //_shortBreakTimer = TimeSpan.FromMinutes(double.Parse(ShortBreakTimerSettingsKey));
-            //_longBreakTimer = TimeSpan.FromMinutes(double.Parse(LongBreakTimerSettingsKey));
         }
 
         public RelayCommand StartPauseResumeClick { get; set; }
@@ -96,45 +89,12 @@ namespace PomiDone.ViewModels
             }
         }
 
-        //public string ButtonStartPauseResumeContent
-        //{
-        //    get { return _buttonStartPauseResumeContent; }
-        //    set
-        //    {
-        //        _buttonStartPauseResumeContent = value;
-        //        OnPropertyChanged(nameof(ButtonStartPauseResumeContent));
-        //    }
-        //}
-
-
-        private string _buttonStartPauseResumeContent;
-
         public string ButtonStartPauseResumeContent
         {
             get { return _buttonStartPauseResumeContent; }
 
             set { Set(ref _buttonStartPauseResumeContent, value); }
         }
-
-        //private ICommand _buttonStartPauseResumeContent;
-
-        //public ICommand ButtonStartPauseResumeContent
-        //{
-        //    get
-        //    {
-        //        if (_buttonStartPauseResumeContent == null)
-        //        {
-        //            _buttonStartPauseResumeContent = new RelayCommand<ElementTheme>(
-        //                async (param) =>
-        //                {
-        //                    ElementTheme = param;
-        //                    await ThemeSelectorService.SetThemeAsync(param);
-        //                });
-        //        }
-
-        //        return _buttonStartPauseResumeContent;
-        //    }
-        //}
 
         public int CurrentProgress
         {
@@ -227,8 +187,6 @@ namespace PomiDone.ViewModels
             _isStarted = false;
             ButtonStartPauseResumeContent = "Start";
             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-            _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
-            _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
             _workCounter = 0;
             _zeroCrossingCounter = 0;
             _shortBreakCounter = 0;
