@@ -35,6 +35,7 @@ namespace PomiDone.ViewModels
 
         public PomiDoneViewModel()
         {
+            TimerTextBlock = "Initializing...";
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartPauseResumeClick = new RelayCommand(StartPauseResumeClickCommand);
             ResetClick = new RelayCommand(ResetClickCommand);
@@ -45,7 +46,6 @@ namespace PomiDone.ViewModels
             _timeSpan = _workTimerTimeSpanInMinutes;
             ButtonStartPauseResumeContent = "Start";
             ProgressMaximum = _timeSpan * 60;
-            TimerTextBlock = "Initializing";
             _isInitialized = true;
         }
 
@@ -58,7 +58,6 @@ namespace PomiDone.ViewModels
 
         public RelayCommand StartPauseResumeClick { get; set; }
         public RelayCommand ResetClick { get; set; }
-
 
         public string TimerTextBlock
         {
