@@ -25,8 +25,6 @@ namespace PomiDone.Services
             WorkTimer = await LoadTimerFromSettingsAsync(WorkTimerSettingsKey);
             ShortBreakTimer = await LoadTimerFromSettingsAsync(ShortBreakTimerSettingsKey);
             LongBreakTimer = await LoadTimerFromSettingsAsync(LongBreakTimerSettingsKey);
-            //PomiDoneViewModel viewModel = new PomiDoneViewModel();
-            //viewModel.Initialize(WorkTimer, ShortBreakTimer, LongBreakTimer);
         }
 
         public static async Task<string> LoadTimerFromSettingsAsync(string key)

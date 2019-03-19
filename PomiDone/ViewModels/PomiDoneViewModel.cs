@@ -42,11 +42,6 @@ namespace PomiDone.ViewModels
             ProgressMaximum = _timeSpan * 60;
         }
 
-        public void Initialize(string WorkTimerSettingsKey, string ShortBreakTimerSettingsKey, string LongBreakTimerSettingsKey)
-        {
-            _workTimer = TimeSpan.FromMinutes(double.Parse(WorkTimerSettingsKey));
-        }
-
         public RelayCommand StartPauseResumeClick { get; set; }
         public RelayCommand ResetClick { get; set; }
 
