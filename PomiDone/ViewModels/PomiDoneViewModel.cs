@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using PomiDone.Helpers;
+using Windows.ApplicationModel.ExtendedExecution;
 using Windows.System.Threading;
 using Windows.UI.Core;
 
@@ -29,19 +31,21 @@ namespace PomiDone.ViewModels
         private int _currentProgress;
         private int _progressMaximum;
         private string _buttonStartPauseResumeContent;
+        private ExtendedExecutionSession _session = null;
+        private Timer _periodicTimer = null;
 
         public PomiDoneViewModel()
         {
             TimerTextBlock = "Initializing...";
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartPauseResumeClick = new RelayCommand(StartPauseResumeClickCommand);
             ResetClick = new RelayCommand(ResetClickCommand);
             _workTimer = TimeSpan.FromMinutes(double.Parse(Services.StoreTimersService.WorkTimer));
             _timeSpan = _workTimerTimeSpanInMinutes;
             ButtonStartPauseResumeContent = "Start";
             ProgressMaximum = _timeSpan * 60;
+            BeginExtendedExecution();
         }
-
+       
         public RelayCommand StartPauseResumeClick { get; set; }
         public RelayCommand ResetClick { get; set; }
 
@@ -109,7 +113,7 @@ namespace PomiDone.ViewModels
             }
         }
 
-        private async void TimerHandler(ThreadPoolTimer timer)
+        private async void OnTimer(object state)
         {
             var dispatcher = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher;
             await dispatcher.RunAsync(
@@ -160,6 +164,72 @@ namespace PomiDone.ViewModels
                      _workTimer = TimeSpan.FromMinutes(_timeSpan);
                  }
              });
+        }
+
+        private void ClearExtendedExecution()
+        {
+            if (_session != null)
+            {
+                _session.Revoked -= SessionRevoked;
+                _session.Dispose();
+                _session = null;
+            }
+
+            if (_periodicTimer != null)
+            {
+                _periodicTimer.Dispose();
+                _periodicTimer = null;
+            }
+        }
+
+        private async void BeginExtendedExecution()
+        {
+            // https://github.com/Microsoft/Windows-universal-samples/tree/master/Samples/ExtendedExecution
+            // The previous Extended Execution must be closed before a new one can be requested.
+            // This code is redundant here because the sample doesn't allow a new extended
+            // execution to begin until the previous one ends, but we leave it here for illustration.
+            ClearExtendedExecution();
+
+            var newSession = new ExtendedExecutionSession();
+            newSession.Reason = ExtendedExecutionReason.Unspecified;
+            newSession.Description = "Raising periodic timer ticks";
+            newSession.Revoked += SessionRevoked;
+            ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
+
+            switch (result)
+            {
+                case ExtendedExecutionResult.Allowed:
+                    _session = newSession;
+                    _periodicTimer = new Timer(OnTimer, DateTime.Now, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                    break;
+
+                default:
+                case ExtendedExecutionResult.Denied:
+                    newSession.Dispose();
+                    break;
+            }
+        }
+
+        private void EndExtendedExecution()
+        {
+            ClearExtendedExecution();
+        }
+
+        private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                switch (args.Reason)
+                {
+                    case ExtendedExecutionRevokedReason.Resumed:
+                        break;
+
+                    case ExtendedExecutionRevokedReason.SystemPolicy:
+                        break;
+                }
+
+                EndExtendedExecution();
+            });
         }
 
         private void StartPauseResumeClickCommand()
