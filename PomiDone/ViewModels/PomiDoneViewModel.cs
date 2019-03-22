@@ -33,10 +33,12 @@ namespace PomiDone.ViewModels
         private string _buttonStartPauseResumeContent;
         private ExtendedExecutionSession _session = null;
         private Timer _periodicTimer = null;
+        private string _currentTask;
 
         public PomiDoneViewModel()
         {
             TimerTextBlock = "Initializing...";
+            CurrentTask = "Initializing...";
             StartPauseResumeClick = new RelayCommand(StartPauseResumeClickCommand);
             ResetClick = new RelayCommand(ResetClickCommand);
             _workTimer = TimeSpan.FromMinutes(double.Parse(Services.StoreTimersService.WorkTimer));
@@ -48,6 +50,13 @@ namespace PomiDone.ViewModels
        
         public RelayCommand StartPauseResumeClick { get; set; }
         public RelayCommand ResetClick { get; set; }
+
+        public string CurrentTask
+        {
+            get { return _currentTask; }
+
+            set { Set(ref _currentTask, value); }
+        }
 
         public string TimerTextBlock
         {
@@ -125,12 +134,19 @@ namespace PomiDone.ViewModels
                  ShortTimerTextBlock = _shortBreakCounter.ToString();
                  LongTimerTextBlock = _longBreakCounter.ToString();
                  if (!_isStarted)
+                 {
+                     if (CurrentTask == "Pausing..." || CurrentTask == "Press Resume")
+                         CurrentTask = "Press Resume";
+                     else
+                         CurrentTask = "Press Start";
                      return;
+                 }
 
                  _workTimer -= TimeSpan.FromSeconds(1);
                  ProgressMaximum = _timeSpan * 60;
                  CurrentProgress = _timeSpan * 60 - (int)_workTimer.TotalSeconds;
                  TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                 CurrentTask = _currentTask;
                  if (_workTimer == TimeSpan.Zero)
                  {
                      TimerTextBlock = _workTimer.ToString(@"m\:ss");
@@ -147,6 +163,7 @@ namespace PomiDone.ViewModels
                              _shortBreakCounter++;
                          }
                          _timeSpan = _workTimerTimeSpanInMinutes;
+                         CurrentTask = "Task";
                      }
                      else
                      {
@@ -155,10 +172,12 @@ namespace PomiDone.ViewModels
                          if (_workCounter % 4 == 0)
                          {
                              _timeSpan = _longBreakTimerTimeSpanInMinutes;
+                             CurrentTask = "Long break";
                          }
                          else
                          {
                              _timeSpan = _shortBreakTimerTimeSpanInMinutes;
+                             CurrentTask = "Short break";
                          }
                      }
                      _workTimer = TimeSpan.FromMinutes(_timeSpan);
@@ -238,10 +257,12 @@ namespace PomiDone.ViewModels
             if (_isStarted)
             {
                 ButtonStartPauseResumeContent = "Pause";
+                CurrentTask = "Task";
             }
             else
             {
                 ButtonStartPauseResumeContent = "Resume";
+                CurrentTask = "Pausing...";
             }
         }
 
@@ -257,6 +278,7 @@ namespace PomiDone.ViewModels
             CurrentProgress = 0;
             _timeSpan = _workTimerTimeSpanInMinutes;
             ProgressMaximum = _timeSpan * 60;
+            CurrentTask = "Resetting...";
         }
     }
 }
